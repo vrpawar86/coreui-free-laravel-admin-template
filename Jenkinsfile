@@ -4,7 +4,7 @@ pipeline {
         stage("Build") {
             environment {
                 DB_HOST = ("laravel1.cwb1jzpmjmgj.ap-south-1.rds.amazonaws.com")
-                DB_DATABASE = ("laravel2")
+                DB_DATABASE = ("lava")
                 DB_USERNAME = ("admin")
                 DB_PASSWORD = ("12345678")
             }
@@ -59,7 +59,7 @@ pipeline {
         }
         stage("Deploy to staging") {
             steps {
-                sh "docker run -d --rm -p 80:80 --name laravel8cd vrpawar86/laravel"
+                sh "docker run -d --rm -p 80:80 --name laravel vrpawar86/laravel"
             }
         }
         stage("Acceptance test curl") {
