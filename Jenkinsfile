@@ -44,7 +44,7 @@ pipeline {
         }
         stage("Docker build") {
             steps {
-                sh "docker build -t vrpawar86/laravel8cd ."
+                sh "docker build -t vrpawar86/laravel ."
             }
         }
         stage("Docker push") {
@@ -54,12 +54,12 @@ pipeline {
             }
             steps {
                 sh "docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}"
-                sh "docker push vrpawar86/laravel8cd"
+                sh "docker push vrpawar86/laravel"
             }
         }
         stage("Deploy to staging") {
             steps {
-                sh "docker run -d --rm -p 80:80 --name laravel8cd vrpawar86/laravel8cd"
+                sh "docker run -d --rm -p 80:80 --name laravel8cd vrpawar86/laravel"
             }
         }
         stage("Acceptance test curl") {
@@ -74,7 +74,7 @@ pipeline {
             }
             post {
                 always {
-                    sh "docker stop laravel8cd"
+                    sh "docker stop laravel"
                 }
             }
         }
