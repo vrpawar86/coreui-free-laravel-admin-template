@@ -22,26 +22,7 @@ pipeline {
                 sh 'php artisan migrate'
             }
         }
-        stage("Unit test") {
-            steps {
-                sh 'php artisan test'
-            }
-        }
-        stage("Code coverage") {
-            steps {
-                sh "vendor/bin/phpunit --coverage-html 'reports/coverage'"
-            }
-        }
-        stage("Static code analysis larastan") {
-            steps {
-                sh "vendor/bin/phpstan analyse --memory-limit=2G"
-            }
-        }
-        stage("Static code analysis phpcs") {
-            steps {
-                sh "vendor/bin/phpcs"
-            }
-        }
+        
         stage("Docker build") {
             steps {
                 sh "docker build -t vrpawar86/laravel ."
@@ -62,21 +43,6 @@ pipeline {
                 sh "docker run -d --rm -p 80:80 --name laravel vrpawar86/laravel"
             }
         }
-        stage("Acceptance test curl") {
-            steps {
-                sleep 20
-                sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
-            }
-        }
-        stage("Acceptance test codeception") {
-            steps {
-                sh "vendor/bin/codecept run"
-            }
-            post {
-                always {
-                    sh "docker stop laravel"
-                }
-            }
-        }
+
     }
 }
